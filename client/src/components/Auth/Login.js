@@ -2,38 +2,53 @@ import React, { useContext } from 'react';
 import { GraphQLClient } from 'graphql-request';
 import { GoogleLogin } from 'react-google-login';
 import { withStyles } from '@material-ui/core/styles';
-// import Typography from "@material-ui/core/Typography";
+import Typography from '@material-ui/core/Typography';
 
 import Context from '../../context';
 
-const ME_QUERY = `
-query {
-  me {
-    _id
-    name
-    email
-    picture
-  }
-}
-`;
+import { ME_QUERY } from '../../graphql/queries';
 
 const Login = ({ classes }) => {
   const { dispatch } = useContext(Context);
+
   const onSuccess = async googleUser => {
-    const idToken = googleUser.getAuthResponse().id_token;
-    const client = new GraphQLClient('http://localhost:4000/graphql', {
-      headers: { authorization: idToken }
-    });
-    const { me } = await client.request(ME_QUERY);
-    dispatch({ type: 'LOGIN_USER', payload: me });
+    try {
+      const idToken = googleUser.getAuthResponse().id_token;
+      const client = new GraphQLClient('http://localhost:4000/graphql', {
+        headers: { authorization: idToken }
+      });
+      const { me } = await client.request(ME_QUERY);
+      dispatch({ type: 'LOGIN_USER', payload: me });
+    } catch (err) {
+      onFailure(err);
+    }
   };
 
+  const onFailure = err => {
+    console.error(`Error logging in`, err);
+  };
   return (
-    <GoogleLogin
-      clientId="847801444008-o8hjt1e15dsg3ro603ckhj66f8p8rvd2.apps.googleusercontent.com"
-      onSuccess={onSuccess}
-      isSignedIn={true}
-    />
+    <div className={classes.root}>
+      <Typography
+        component="h1"
+        variant="h3"
+        gutterBottom
+        noWrap
+        style={{
+          color: 'rgb(23,123,23)',
+          fontFamily: "'Fjalla One', sans-serif"
+        }}
+      >
+        Welcome to Unhider!
+      </Typography>
+      <GoogleLogin
+        clientId="847801444008-o8hjt1e15dsg3ro603ckhj66f8p8rvd2.apps.googleusercontent.com"
+        onSuccess={onSuccess}
+        onFailure={onFailure}
+        isSignedIn={true}
+        theme="dark"
+      />
+    </div>
   );
 };
 
