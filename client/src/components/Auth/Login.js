@@ -47,6 +47,7 @@ const Login = ({ classes }) => {
         onSuccess={onSuccess}
         onFailure={onFailure}
         isSignedIn={true}
+        buttonText="Login to Unhider"
         theme="dark"
       />
     </div>
