@@ -22,12 +22,12 @@ const Login = ({ classes }) => {
       headers: { authorization: idToken }
     });
     const data = await client.request(ME_QUERY);
-    console.log({ data });
+    console.log(data);
   };
 
   return (
     <GoogleLogin
-      clientId="847801444008-7fhdechq8vtpscjoo5ukmurch221vl5q.apps.googleusercontent.com"
+      clientId="847801444008-o8hjt1e15dsg3ro603ckhj66f8p8rvd2.apps.googleusercontent.com"
       onSuccess={onSuccess}
       isSignedIn={true}
     />
