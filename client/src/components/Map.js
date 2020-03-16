@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import ReactMapGL from 'react-map-gl';
+import React, { useState, useEffect } from 'react';
+import ReactMapGL, { NavigationControl, Marker } from 'react-map-gl';
 import { withStyles } from '@material-ui/core/styles';
+
+import PinIcon from './PinIcon';
 // import Button from "@material-ui/core/Button";
 // import Typography from "@material-ui/core/Typography";
 // import DeleteIcon from "@material-ui/icons/DeleteTwoTone";
@@ -12,6 +14,19 @@ const INITIAL_VIEWPORT = {
 };
 const Map = ({ classes }) => {
   const [viewport, setViewport] = useState(INITIAL_VIEWPORT);
+  const [userPosition, setUserPosition] = useState(null);
+  const getUserPosition = () => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const { latitude, longitude } = position.coords;
+        setViewport({ ...viewport, latitude, longitude });
+        setUserPosition({ latitude, longitude });
+      });
+    }
+  };
+  useEffect(() => {
+    getUserPosition();
+  }, []);
   return (
     <div className={classes.root}>
       <ReactMapGL
@@ -21,7 +36,26 @@ const Map = ({ classes }) => {
         mapboxApiAccessToken="pk.eyJ1IjoibWFzdGVyY2hlZjIzIiwiYSI6ImNrN2hhd2pzaDA3d20zZm8zcGlrNm1xZXMifQ.aU0LzJ0AhLRcNP5kmvlD_Q"
         {...viewport}
         onViewportChange={newViewport => setViewport(newViewport)}
-      ></ReactMapGL>
+      >
+        {/* NavigationControl */}
+        <div className={classes.navigationControl}>
+          <NavigationControl
+            onViewportChange={newViewport => setViewport(newViewport)}
+          />
+        </div>
+
+        {/* pin for user's current position */}
+        {userPosition && (
+          <Marker
+            latitude={userPosition.latitude}
+            longitude={userPosition.longitude}
+            offsetLeft={-20}
+            offsetTop={-40}
+          >
+            <PinIcon size={40} color="red" />
+          </Marker>
+        )}
+      </ReactMapGL>
     </div>
   );
 };
