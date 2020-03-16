@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import Context from '../state_manager/context';
+import Signout from './Auth/Signout';
+
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import StreetviewIcon from '@material-ui/icons/Streetview';
 import Typography from '@material-ui/core/Typography';
-// import LogoIcon from './LogoIcon';
 
 const Header = ({ classes }) => {
   const {
@@ -44,7 +45,7 @@ const Header = ({ classes }) => {
               </Typography>
             </div>
           )}
-          Sign Out
+          <Signout />
         </Toolbar>
       </AppBar>
     </div>
