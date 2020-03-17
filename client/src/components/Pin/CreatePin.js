@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import axios from 'axios';
 import Context from '../../state_manager/context';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -15,9 +16,10 @@ const CreatePin = ({ classes }) => {
   const [image, setImage] = useState('');
   const [content, setContent] = useState('');
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    console.log({ title, image, content });
+    const url = await handleImageUpload();
+    console.log({ title, image, url, content });
   };
 
   const handleDeleteDraft = () => {
@@ -25,6 +27,18 @@ const CreatePin = ({ classes }) => {
     setImage('');
     setContent('');
     dispatch({ type: 'DELETE_DRAFT' });
+  };
+
+  const handleImageUpload = async () => {
+    const data = new FormData();
+    data.append('file', image);
+    data.append('upload_preset', 'unhider');
+    data.append('cloud_name', 'softsmart');
+    const res = await axios.post(
+      'https://api.cloudinary.com/v1_1/softsmart/upload',
+      data
+    );
+    return res.data.url;
   };
   return (
     <form className={classes.form}>
