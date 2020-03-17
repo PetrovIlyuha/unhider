@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import Context from '../../state_manager/context';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -9,6 +10,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/SaveTwoTone';
 
 const CreatePin = ({ classes }) => {
+  const { dispatch } = useContext(Context);
   const [title, setTitle] = useState('');
   const [image, setImage] = useState('');
   const [content, setContent] = useState('');
@@ -16,6 +18,13 @@ const CreatePin = ({ classes }) => {
   const handleSubmit = e => {
     e.preventDefault();
     console.log({ title, image, content });
+  };
+
+  const handleDeleteDraft = () => {
+    setTitle('');
+    setImage('');
+    setContent('');
+    dispatch({ type: 'DELETE_DRAFT' });
   };
   return (
     <form className={classes.form}>
@@ -44,7 +53,12 @@ const CreatePin = ({ classes }) => {
           onChange={e => setImage(e.target.files[0])}
         />
         <label htmlFor="image">
-          <Button component="span" size="small" className={classes.button}>
+          <Button
+            style={{ color: image && 'orange' }}
+            component="span"
+            size="small"
+            className={classes.button}
+          >
             <AddAPhotoIcon />
           </Button>
         </label>
@@ -63,7 +77,12 @@ const CreatePin = ({ classes }) => {
         />
       </div>
       <div>
-        <Button className={classes.button} variant="contained" color="primary">
+        <Button
+          onClick={handleDeleteDraft}
+          className={classes.button}
+          variant="contained"
+          color="primary"
+        >
           <ClearIcon className={classes.leftIcon} />
           Discard
         </Button>
