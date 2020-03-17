@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -9,6 +9,14 @@ import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/SaveTwoTone';
 
 const CreatePin = ({ classes }) => {
+  const [title, setTitle] = useState('');
+  const [image, setImage] = useState('');
+  const [content, setContent] = useState('');
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    console.log({ title, image, content });
+  };
   return (
     <form className={classes.form}>
       <Typography
@@ -21,12 +29,19 @@ const CreatePin = ({ classes }) => {
         Pin a location
       </Typography>
       <div>
-        <TextField name="title" label="title" placeholder="Insert pin title" />
+        <TextField
+          name="title"
+          label="title"
+          placeholder="Insert pin title"
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+        />
         <input
           accept="image/*"
           id="image"
           type="file"
           className={classes.input}
+          onChange={e => setImage(e.target.files[0])}
         />
         <label htmlFor="image">
           <Button component="span" size="small" className={classes.button}>
@@ -43,12 +58,25 @@ const CreatePin = ({ classes }) => {
           margin="normal"
           fullWidth
           variant="outlined"
+          value={content}
+          onChange={e => setContent(e.target.value)}
         />
       </div>
       <div>
         <Button className={classes.button} variant="contained" color="primary">
           <ClearIcon className={classes.leftIcon} />
           Discard
+        </Button>
+        <Button
+          type="submit"
+          className={classes.button}
+          variant="contained"
+          color="secondary"
+          disabled={!title.trim() || !content.trim() || !image}
+          onClick={handleSubmit}
+        >
+          Submit
+          <SaveIcon className={classes.rightIcon} />
         </Button>
       </div>
     </form>
