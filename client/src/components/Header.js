@@ -18,7 +18,10 @@ const Header = ({ classes }) => {
       className={classes.root}
       style={{ fontFamily: "'Fjalla One', sans-serif" }}
     >
-      <AppBar position="static">
+      <AppBar
+        position="static"
+        style={{ boxShadow: '2px -1px 14px 0px rgba(0,0,0,0.75)' }}
+      >
         <Toolbar>
           <div className={classes.grow}>
             <StreetviewIcon className={classes.icon} />

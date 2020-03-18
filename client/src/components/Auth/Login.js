@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { GraphQLClient } from 'graphql-request';
+import { BASE_URL } from '../../graphql/client';
 import { GoogleLogin } from 'react-google-login';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
@@ -14,7 +15,7 @@ const Login = ({ classes }) => {
   const onSuccess = async googleUser => {
     try {
       const idToken = googleUser.getAuthResponse().id_token;
-      const client = new GraphQLClient('http://localhost:4000/graphql', {
+      const client = new GraphQLClient(BASE_URL, {
         headers: { authorization: idToken }
       });
       const { me } = await client.request(ME_QUERY);

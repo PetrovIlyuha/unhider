@@ -13,7 +13,10 @@ import LandscapeIcon from '@material-ui/icons/LandscapeOutlined';
 import ClearIcon from '@material-ui/icons/Clear';
 import SaveIcon from '@material-ui/icons/SaveTwoTone';
 
+import { useClient } from '../../graphql/client';
+
 const CreatePin = ({ classes }) => {
+  const client = useClient();
   const { state, dispatch } = useContext(Context);
   const [title, setTitle] = useState('');
   const [image, setImage] = useState('');
@@ -24,13 +27,6 @@ const CreatePin = ({ classes }) => {
     setSubmitting(true);
     try {
       e.preventDefault();
-      const idToken = window.gapi.auth2
-        .getAuthInstance()
-        .currentUser.get()
-        .getAuthResponse().id_token;
-      const client = new GraphQLClient('http://localhost:4000/graphql', {
-        headers: { authorization: idToken }
-      });
       const url = await handleImageUpload();
       const {
         draft: { latitude, longitude }
