@@ -2,9 +2,14 @@ import React, { useContext } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 import Context from '../../state_manager/context';
+
+import Comments from '../Comment/Comments';
+import CreateComment from '../Comment/CreateComment';
 import Typography from '@material-ui/core/Typography';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import FaceIcon from '@material-ui/icons/Face';
+
+import format from 'date-fns/format';
 
 const PinContent = ({ classes }) => {
   const { state } = useContext(Context);
@@ -32,11 +37,15 @@ const PinContent = ({ classes }) => {
         gutterBottom
       >
         <AccessTimeIcon className={classes.icon} />
-        {createdAt}
+        {format(Number(createdAt), 'MMM Do, YYYY')}
       </Typography>
       <Typography variant="subtitle1" gutterBottom>
         {content}
       </Typography>
+
+      {/* pin comments */}
+      <CreateComment />
+      <Comments comments={comments} />
     </div>
   );
 };
