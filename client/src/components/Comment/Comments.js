@@ -7,6 +7,8 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+
 const Comments = ({ comments, classes }) => (
   <List className={classes.root}>
     {comments.map((comment, i) => (
@@ -17,13 +19,19 @@ const Comments = ({ comments, classes }) => (
         <ListItemText
           primary={comment.text}
           secondary={
-            <Typography
-              className={classes.inline}
-              component="span"
-              color="textPrimary"
-            >
-              {comment.author.name}
-            </Typography>
+            <>
+              <Typography
+                className={classes.inline}
+                component="span"
+                color="textPrimary"
+              >
+                {comment.author.name}
+              </Typography>
+              {'     '}
+              <span style={{ fontSize: '0.5rem' }}>
+                {`${distanceInWordsToNow(Number(comment.createdAt))} ago`}
+              </span>
+            </>
           }
         />
       </ListItem>
