@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import DeleteIcon from '@material-ui/icons/DeleteTwoTone';
 
+import { Subscription } from 'react-apollo';
+
 import { useClient } from '../graphql/client';
 import { GET_PINS_QUERY } from '../graphql/queries';
 import { DELETE_PIN_MUTATION } from '../graphql/mutations';
