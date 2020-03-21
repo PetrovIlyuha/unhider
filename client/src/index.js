@@ -18,7 +18,7 @@ import Splash from './pages/Splash';
 import './index.css';
 
 const wsLink = new WebSocketLink({
-  uri: 'ws://localhost:4000/graphql',
+  uri: 'wss://unhiders.herokuapp.com/graphql',
   options: {
     reconnect: true
   }
