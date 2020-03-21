@@ -52,6 +52,14 @@ const Map = ({ classes }) => {
 
   // Popup
   const [popup, setPopup] = useState(null);
+  // remove popup if pin was deleted by the author
+  useEffect(() => {
+    const pinExists =
+      popup && state.pins.findIndex(pin => pin._id === popup._id) > -1;
+    if (!pinExists) {
+      setPopup(null);
+    }
+  }, [state.pins.length]);
   const handleSelectPin = pin => {
     setPopup(pin);
     dispatch({ type: 'SET_PIN', payload: pin });

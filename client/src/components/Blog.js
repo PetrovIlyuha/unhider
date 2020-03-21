@@ -12,7 +12,6 @@ const Blog = ({ classes }) => {
   const mobileSize = useMediaQuery('(max-width: 650px)');
   const { state } = useContext(Context);
   const { draft, currentPin } = state;
-  console.log(mobileSize);
   let BlogContent;
   if (!draft && !currentPin) {
     // no-content

@@ -17,8 +17,14 @@ const CreateComment = ({ classes }) => {
 
   const handleSubmitComment = async () => {
     const variables = { pinId: state.currentPin._id, text: comment };
-    await client.request(CREATE_COMMENT_MUTATION, variables);
-    setComment('');
+    console.log(variables);
+    const responseComment = await client.request(
+      CREATE_COMMENT_MUTATION,
+      variables
+    );
+    if (responseComment) {
+      setComment('');
+    }
   };
 
   return (
