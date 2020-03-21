@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import Context from '../state_manager/context';
+import { unstable_useMediaQuery as useMediaQuery } from '@material-ui/core/useMediaQuery';
 import Signout from './Auth/Signout';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -9,6 +10,8 @@ import StreetviewIcon from '@material-ui/icons/Streetview';
 import Typography from '@material-ui/core/Typography';
 
 const Header = ({ classes }) => {
+  const mobileSize = useMediaQuery('(max-width: 650px)');
+  console.log(mobileSize);
   const {
     state: { currentUser }
   } = useContext(Context);
@@ -26,11 +29,11 @@ const Header = ({ classes }) => {
           <div className={classes.grow}>
             <StreetviewIcon className={classes.icon} />
             <Typography
+              className={mobileSize ? classes.mobile : classes.brandName}
               component="h1"
               variant="h6"
               color="inherit"
               noWrap
-              className={classes.brandName}
             >
               Unhider
             </Typography>
@@ -43,7 +46,12 @@ const Header = ({ classes }) => {
                 src={currentUser.picture}
                 alt={currentUser.name}
               />
-              <Typography variant="h5" color="inherit" noWrap>
+              <Typography
+                variant="h5"
+                color="inherit"
+                className={mobileSize ? classes.mobile : ''}
+                noWrap
+              >
                 {currentUser.name}
               </Typography>
             </div>

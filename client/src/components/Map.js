@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import ReactMapGL, { NavigationControl, Marker, Popup } from 'react-map-gl';
 import { withStyles } from '@material-ui/core/styles';
+import { unstable_useMediaQuery as useMediaQuery } from '@material-ui/core/useMediaQuery';
 import diffeenceInMinutes from 'date-fns/difference_in_minutes';
 
 import Context from '../state_manager/context';
@@ -27,11 +28,13 @@ const INITIAL_VIEWPORT = {
   zoom: 13
 };
 const Map = ({ classes }) => {
+  const [viewport, setViewport] = useState(INITIAL_VIEWPORT);
+  const { state, dispatch } = useContext(Context);
+  const mobileSize = useMediaQuery('(max-width: 650px)');
+
   useEffect(() => {
     getPins();
   }, []);
-  const [viewport, setViewport] = useState(INITIAL_VIEWPORT);
-  const { state, dispatch } = useContext(Context);
 
   const [userPosition, setUserPosition] = useState(null);
   useEffect(() => {
@@ -89,12 +92,13 @@ const Map = ({ classes }) => {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={mobileSize ? classes.rootMobile : classes.root}>
       <ReactMapGL
         width="100vw"
         height="calc(100vh - 64px)"
         mapStyle="mapbox://styles/mapbox/streets-v9"
         mapboxApiAccessToken="pk.eyJ1IjoibWFzdGVyY2hlZjIzIiwiYSI6ImNrN2hhd2pzaDA3d20zZm8zcGlrNm1xZXMifQ.aU0LzJ0AhLRcNP5kmvlD_Q"
+        scrollZoom={!mobileSize}
         {...viewport}
         onViewportChange={newViewport => setViewport(newViewport)}
         onClick={handleMapClick}
