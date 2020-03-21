@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 import { GraphQLClient } from 'graphql-request';
 import axios from 'axios';
 import Context from '../../state_manager/context';
+import { unstable_useMediaQuery as useMediaQuery } from '@material-ui/core/useMediaQuery';
+
 import { CREATE_PIN_MUTATION } from '../../graphql/mutations';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -22,6 +24,7 @@ const CreatePin = ({ classes }) => {
   const [image, setImage] = useState('');
   const [content, setContent] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const mobileSize = useMediaQuery('(max-width: 650px)');
 
   const handleSubmit = async e => {
     setSubmitting(true);
@@ -100,7 +103,7 @@ const CreatePin = ({ classes }) => {
           name="content"
           label="Content"
           multiline
-          rows="6"
+          rows={mobileSize ? '3' : '6'}
           margin="normal"
           fullWidth
           variant="outlined"

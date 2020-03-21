@@ -4,12 +4,15 @@ import NoContent from './Pin/NoContent';
 import CreatePin from './Pin/CreatePin';
 import PinContent from './Pin/PinContent';
 import { withStyles } from '@material-ui/core/styles';
+import { unstable_useMediaQuery as useMediaQuery } from '@material-ui/core/useMediaQuery';
+
 import { Paper } from '@material-ui/core';
 
 const Blog = ({ classes }) => {
+  const mobileSize = useMediaQuery('(max-width: 650px)');
   const { state } = useContext(Context);
   const { draft, currentPin } = state;
-
+  console.log(mobileSize);
   let BlogContent;
   if (!draft && !currentPin) {
     // no-content
@@ -21,7 +24,7 @@ const Blog = ({ classes }) => {
     BlogContent = PinContent;
   }
   return (
-    <Paper className={classes.root}>
+    <Paper className={mobileSize ? classes.rootMobile : classes.root}>
       <BlogContent />
     </Paper>
   );
@@ -38,9 +41,9 @@ const styles = {
   },
   rootMobile: {
     maxWidth: '100%',
-    maxHeight: 300,
-    overflowX: 'hidden',
-    overflowY: 'scroll'
+    maxHeight: 400
+    // overflowX: 'hidden'
+    // overflowY: 'scroll'
   }
 };
 

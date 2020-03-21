@@ -11,7 +11,6 @@ import Typography from '@material-ui/core/Typography';
 
 const Header = ({ classes }) => {
   const mobileSize = useMediaQuery('(max-width: 650px)');
-  console.log(mobileSize);
   const {
     state: { currentUser }
   } = useContext(Context);
@@ -23,7 +22,10 @@ const Header = ({ classes }) => {
     >
       <AppBar
         position="static"
-        style={{ boxShadow: '2px -1px 14px 0px rgba(0,0,0,0.75)' }}
+        style={{
+          background:
+            'linear-gradient(45deg, rgb(67, 147, 163) 0%, rgb(67, 147, 163) 59%,rgb(93, 161, 169) 59%, rgb(93, 161, 169) 65%,rgb(119, 175, 175) 65%, rgb(119, 175, 175) 70%,rgb(145, 190, 181) 70%, rgb(145, 190, 181) 73%,rgb(171, 204, 187) 73%, rgb(171, 204, 187) 78%,rgb(197, 218, 193) 78%, rgb(197, 218, 193) 100%)'
+        }}
       >
         <Toolbar>
           <div className={classes.grow}>
